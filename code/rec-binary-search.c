@@ -1,13 +1,9 @@
 #include <stdio.h>
 
-int binarySearch(int arr[], int size, int target)
+int recursiveBinarySearch(int arr[], int low, int high, int target)
 {
-    int low = 0;
-    int high = size - 1;
-
-    while (low <= high)
+    if (low <= high)
     {
-        // Prevents integer overflow compared to (low + high) / 2
         int mid = low + (high - low) / 2;
 
         if (arr[mid] == target)
@@ -17,12 +13,10 @@ int binarySearch(int arr[], int size, int target)
 
         if (arr[mid] < target)
         {
-            low = mid + 1;
+            return recursiveBinarySearch(arr, mid + 1, high, target);
         }
-        else
-        {
-            high = mid - 1;
-        }
+
+        return recursiveBinarySearch(arr, low, mid - 1, target);
     }
 
     return -1;
@@ -34,7 +28,7 @@ int main()
     int size = sizeof(arr) / sizeof(arr[0]);
     int target = 23;
 
-    int result = binarySearch(arr, size, target);
+    int result = recursiveBinarySearch(arr, 0, size - 1, target);
 
     if (result != -1)
     {
